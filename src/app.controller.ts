@@ -15,10 +15,10 @@ export class AppController {
   getRoot(): void {}
 
   @Get("/resume")
-  getResume(): Promise<CareerDto[]> {
-    const careerDtoList: Promise<CareerDto[]> = this.resumeService.getAllCareers();
+  async getResume(): Promise<CareerDto[]> {
+    const careerDtoList = await this.resumeService.getAllCareers();
     console.log("careerDtoList...: ", careerDtoList);
-      return careerDtoList;
+    return careerDtoList;
   }
 
 }
