@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ElasticModule } from './modules/elastic/elastic.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -21,7 +22,8 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       namingStrategy: new SnakeNamingStrategy(),
     }),
-    ResumeModule
+    ResumeModule,
+    ElasticModule
   ],
   controllers: [AppController],
   providers: [AppService]
