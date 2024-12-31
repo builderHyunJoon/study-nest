@@ -7,16 +7,16 @@ export class ElasticService {
     constructor(private readonly elasticsearchService: ElasticsearchService) { }
 
     async searchElstic(elasticDto: ElasticDto): Promise<any> {
-        const { query, aggs, from, size, sort } = elasticDto;
 
         const body: any = {
-            query: query || {},
-            from: from || 0,
-            size: size || 10
+            query: elasticDto.query || {},
+            from: elasticDto.from || 0,
+            size: elasticDto.size || 10
         }
 
-        if (aggs) { body.aggs = aggs; };
-        if (sort) { body.sort = sort; };
+        if (elasticDto.aggs) { body.aggs = elasticDto.aggs; };
+        if (elasticDto.sort) { body.sort = elasticDto.sort; };
+        if (elasticDto.highlight) { body.highlight = elasticDto.highlight; }
 
         try {
             const result = await this.elasticsearchService.search({
@@ -24,7 +24,11 @@ export class ElasticService {
                 body,
             });
             console.log("elasticsearch search result: ", result);
-            return result.body;
+            const highlightResult = result.body.hits.hits.map((hit) => ({
+                source: hit._source,
+                highlight: hit.highlight,
+              }));
+            return highlightResult;
         } catch (error) {
             console.error('elasticsearch search error:', error);
             throw new Error('elasticsearch failed');

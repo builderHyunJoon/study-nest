@@ -3,8 +3,7 @@ import { Type } from 'class-transformer';
 
 // Base Query DTOs
 class MatchDto {
-  @IsString()
-  message: string;
+  [field: string]: string
 }
 
 class TermDto {
@@ -20,32 +19,26 @@ class RangeDto {
   field: string;
 
   @IsOptional()
-  @IsNumber()
-  gte?: number;
+  @IsString()
+  gte?: string | number;
 
   @IsOptional()
-  @IsNumber()
-  lte?: number;
+  @IsString()
+  lte?: string | number;
 }
 
 class BoolDto {
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => MatchDto)
-  must?: MatchDto[];
+  @Type(() => QueryDto)
+  must?: QueryDto[];
 
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => MatchDto)
-  should?: MatchDto[];
-
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => MatchDto)
-  must_not?: MatchDto[];
+  @Type(() => QueryDto)
+  should?: QueryDto[];
 }
 
 // Aggregations
@@ -60,6 +53,18 @@ class AggregationsDto {
   @IsOptional()
   @IsObject()
   range?: RangeDto;
+}
+
+// Highlight DTO
+class HighlightDto {
+  @IsOptional()
+  @IsObject()
+  fields: {
+    [key: string]: {
+      pre_tags?: string[];
+      post_tags?: string[];
+    };
+  };
 }
 
 // Main Query DTO
@@ -107,4 +112,9 @@ export class ElasticDto {
   @IsOptional()
   @IsString()
   sort?: string;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => HighlightDto)
+  highlight?: HighlightDto;
 }
