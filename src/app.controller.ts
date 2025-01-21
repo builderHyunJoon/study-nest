@@ -8,6 +8,7 @@ import {ElasticDto} from './modules/elastic/dto/elastic.dto';
 import {CsvDto} from "./modules/csv/dto/csv.dto";
 import { Response } from 'express';
 import { stringify } from 'csv-stringify';
+import * as iconv from 'iconv-lite';
 
 @Controller()
 export class AppController {
@@ -54,10 +55,10 @@ export class AppController {
                 console.error("CSV 생성 오류:", err);
                 return res.status(500).send("CSV 생성 오류");
             }
-
-            res.setHeader('Content-Type', 'text/csv');
+            const encodedOutput = iconv.encode(output, 'euc-kr');
+            res.setHeader('Content-Type', 'text/csv; charset=euc-kr');
             res.setHeader('Content-Disposition', 'attachment; filename="word_list.csv"');
-            res.send(output);
+            res.send(encodedOutput);
         });
     }
 

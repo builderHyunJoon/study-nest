@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { CsvhscEntity } from '../entity/csvhsc.entity';
+import { TbVocaWordH } from '../entity/csvhsc.entity';
 
 @Injectable()
-export class CsvhscRepository extends Repository<CsvhscEntity> {
+export class CsvhscRepository extends Repository<TbVocaWordH> {
     constructor(private readonly dataSource: DataSource) {
-        super(CsvhscEntity, dataSource.createEntityManager());
+        super(TbVocaWordH, dataSource.createEntityManager());
     }
 
-    async findAll(): Promise<CsvhscEntity[]> {
+    async findAll(): Promise<TbVocaWordH[]> {
         return this.find();
     }
 }

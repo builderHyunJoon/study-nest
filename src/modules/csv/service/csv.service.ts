@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {CsvDto} from "../dto/csv.dto";
-import {CsvjhsEntity} from "../entity/csvjhs.entity";
-import {CsvhscEntity} from "../entity/csvhsc.entity";
+import {TbVocaWordM} from "../entity/csvjhs.entity";
+import {TbVocaWordH} from "../entity/csvhsc.entity";
 import {CsvjhsRepository} from "../repository/csvjhs.repository";
 import {CsvhscRepository} from "../repository/csvhsc.repository";
 
@@ -13,24 +13,24 @@ export class CsvService {
     ) { }
 
     async getWordList(): Promise<CsvDto[]> {
-        const jhsWordList: CsvjhsEntity[] = await this.csvjhsRepository.findAll();
-        const jhsDtoList: CsvDto[] = jhsWordList.map((csvjhsEntity: CsvjhsEntity) => ({
-            jhsHscDs: csvjhsEntity.jhsHscDs,
-            englWord: csvjhsEntity.englWord,
-            wordDesc: csvjhsEntity.wordDesc,
-            wordDesc1: csvjhsEntity.wordDesc1,
-            wordDesc2: csvjhsEntity.wordDesc2,
-            wordDesc3: csvjhsEntity.wordDesc3
+        const jhsWordList: TbVocaWordM[] = await this.csvjhsRepository.findAll();
+        const jhsDtoList: CsvDto[] = jhsWordList.map((tbVocaWordM: TbVocaWordM) => ({
+            jhsHscDs: tbVocaWordM.jhsHscDs,
+            englWord: tbVocaWordM.englWord,
+            wordDesc: tbVocaWordM.wordDesc,
+            wordDesc1: tbVocaWordM.wordDesc1,
+            wordDesc2: tbVocaWordM.wordDesc2,
+            wordDesc3: tbVocaWordM.wordDesc3
         }));
 
-        const hscWordList: CsvhscEntity[] = await this.csvhscRepository.findAll();
-        const hscDtoList: CsvDto[] = hscWordList.map((csvhscEntity: CsvhscEntity) => ({
-            jhsHscDs: csvhscEntity.jhsHscDs,
-            englWord: csvhscEntity.englWord,
-            wordDesc: csvhscEntity.wordDesc,
-            wordDesc1: csvhscEntity.wordDesc1,
-            wordDesc2: csvhscEntity.wordDesc2,
-            wordDesc3: csvhscEntity.wordDesc3
+        const hscWordList: TbVocaWordH[] = await this.csvhscRepository.findAll();
+        const hscDtoList: CsvDto[] = hscWordList.map((tbVocaWordH: TbVocaWordH) => ({
+            jhsHscDs: tbVocaWordH.jhsHscDs,
+            englWord: tbVocaWordH.englWord,
+            wordDesc: tbVocaWordH.wordDesc,
+            wordDesc1: tbVocaWordH.wordDesc1,
+            wordDesc2: tbVocaWordH.wordDesc2,
+            wordDesc3: tbVocaWordH.wordDesc3
         }));
 
         return jhsDtoList.concat(hscDtoList);

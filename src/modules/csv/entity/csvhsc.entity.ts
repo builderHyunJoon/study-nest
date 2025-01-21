@@ -1,20 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn } from 'typeorm';
 
-@Entity('tb_voca_word_h')
-export class CsvhscEntity {
-    @Column()
+@Entity()
+export class TbVocaWordH {
+
+    @PrimaryColumn({ length: 255 })
+    txbkNm: string;
+
+    @PrimaryColumn()
+    wordNo: number;
+
+    @PrimaryColumn({ length: 255 })
     jhsHscDs: string;
 
     @Column({length: 255})
     englWord: string;
 
-    @Column()
+    @Column({length: 255})
     wordDesc: string;
 
     @Column({length: 255})
     wordDesc1: string;
 
-    @Column()
+    @Column({length: 255})
     wordDesc2: string;
 
     @Column({length: 255})
